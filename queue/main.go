@@ -10,10 +10,11 @@ type Node struct{
 type Queue struct{
   head *Node
   tail *Node
+  length int
 }
 
 func NewQueue() Queue{
-  return Queue{nil, nil}
+  return Queue{nil, nil, 0}
 }
 
 func (self *Queue) Push(value int){
@@ -25,6 +26,7 @@ func (self *Queue) Push(value int){
     self.tail.next = &newItem
     self.tail = &newItem
   }
+  self.length += 1
 }
 
 func (self *Queue) Pop() (int, error) {
@@ -33,8 +35,17 @@ func (self *Queue) Pop() (int, error) {
   }
   del := self.head
   self.head = del.next
+  self.length -= 1
   return del.value, nil
 }
+
+func (self *Queue) Peek() (int, error) {
+  if self.head == nil{
+    return -1, fmt.Errorf("empty")
+  }
+  return self.head.value, nil
+}
+
 
 func (self *Queue) Print(){
   if self.head == nil{
@@ -46,7 +57,7 @@ func (self *Queue) Print(){
     fmt.Printf("%d ->", curr.value)
     curr = curr.next
   }
-  fmt.Println()
+  fmt.Printf("| [%d]\n", self.length)
 }
 
 func callPop(q Queue) Queue {
@@ -57,6 +68,16 @@ func callPop(q Queue) Queue {
   fmt.Printf("popped: %d\n", v)
   return q
 }
+
+func callPeek(q Queue) Queue {
+  v, err := q.Peek()
+  if err != nil{
+    fmt.Println(err)
+  }
+  fmt.Printf("peeked: %d\n", v)
+  return q
+}
+
 
 func main(){
   q := NewQueue()
@@ -69,6 +90,7 @@ func main(){
   q.Print()
   q = callPop(q) 
   q.Print()
+  q = callPeek(q) 
   q = callPop(q) 
   q.Print()
   q = callPop(q)
