@@ -57,7 +57,7 @@ func (self *Queue) Print(){
     fmt.Printf("%d ->", curr.value)
     curr = curr.next
   }
-  fmt.Printf("| [%d]\n", self.length)
+  fmt.Printf("|of length [%d]\n", self.length)
 }
 
 func callPop(q Queue) Queue {
@@ -89,8 +89,8 @@ func main(){
   q.Push(3)
   q.Print()
   q = callPop(q) 
-  q.Print()
   q = callPeek(q) 
+  q.Print()
   q = callPop(q) 
   q.Print()
   q = callPop(q)
