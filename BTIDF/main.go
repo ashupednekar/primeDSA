@@ -90,15 +90,37 @@ func (node *Node) delete(num int){
 		node.Parent.Left = node.Left
 	} else {
 		// two children
+		if node.Left.Height > node.Right.Height{
+			largest := node.getLargest()
+			largest.Parent.Right = nil
+			node.Right.Parent = largest
+			node.Left.Parent = largest
+			largest.Left = node.Left
+			largest.Right = node.Right
+		}else{
+			smallest := node.getSmallest()
+			smallest.Parent.Left = nil
+			node.Left.Parent = smallest
+			node.Right.Parent = smallest
+			smallest.Left = node.Left
+			smallest.Right = node.Right
+		}
 	}
-	
 
 }
 
 func (node *Node) getLargest() *Node {
 	curr := node.Right
 	for curr.Right != nil{
-		curr = node.Right
+		curr = curr.Right
+	}
+	return curr
+}
+
+func (node *Node) getSmallest() *Node{
+	curr := node.Left
+	for curr.Left != nil{
+		curr = curr.Left
 	}
 	return curr
 }
@@ -124,6 +146,7 @@ func main() {
 	tree.delete(6)
 	printTree(&tree, "", false)
 }
+//TODO: fix edge cases on delete, nil pointer dereference on root delete
 
 
 
