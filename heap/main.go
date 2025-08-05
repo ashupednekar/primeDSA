@@ -56,6 +56,7 @@ func (heap *MinHeap) Push(num int){
 }
 
 func (heap *MinHeap) Pop() int {
+	heap.length--
 	if heap.length == 0{
 		return -1
 	}
@@ -64,7 +65,6 @@ func (heap *MinHeap) Pop() int {
 		heap.data = [50]int{}
 		return popped
 	}
-	heap.length--
 	heap.data[0] = heap.data[heap.length]
 	heap.data[heap.length] = 0
 	heap.heapifyDown(0)
@@ -94,4 +94,5 @@ func main(){
 	fmt.Printf("popped: %d, %v\n", heap.Pop(), heap)
 	fmt.Printf("popped: %d, %v\n", heap.Pop(), heap)
 	fmt.Printf("popped: %d, %v\n", heap.Pop(), heap)
+	fmt.Printf("length: %d\n", heap.length)
 }
